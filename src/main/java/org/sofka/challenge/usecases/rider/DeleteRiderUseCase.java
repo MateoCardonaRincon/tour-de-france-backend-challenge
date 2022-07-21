@@ -15,7 +15,8 @@ public class DeleteRiderUseCase implements Function<String, Mono<Void>> {
 
     @Override
     public Mono<Void> apply(String riderId) {
-        return repository.deleteById(riderId)
-                .switchIfEmpty(Mono.error(new IllegalStateException("Rider with id " + riderId + " not found.")));
+        return repository.findById(riderId)
+                .switchIfEmpty(Mono.error(new IllegalStateException("Specified rider does not exist!")))
+                .flatMap(rider -> repository.deleteById(riderId));
     }
 }
