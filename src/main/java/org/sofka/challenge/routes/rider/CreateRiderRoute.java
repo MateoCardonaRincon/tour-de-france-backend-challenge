@@ -10,6 +10,7 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
+import javax.naming.SizeLimitExceededException;
 import java.util.function.Function;
 
 import static org.springframework.web.reactive.function.server.RequestPredicates.POST;
@@ -29,6 +30,7 @@ public class CreateRiderRoute {
         return route(POST("/api/v1/rider/save").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(RiderDTO.class)
                         .flatMap(executor)
-                        .onErrorResume(throwable -> ServerResponse.status(HttpStatus.BAD_REQUEST).build()));
+                        .onErrorResume(SizeLimitExceededException.class, error -> ServerResponse.status(HttpStatus.NOT_ACCEPTABLE).build())
+                        .onErrorResume(IllegalStateException.class, error -> ServerResponse.status(HttpStatus.BAD_REQUEST).build()));
     }
 }
