@@ -1,11 +1,9 @@
 package org.sofka.challenge.dto;
 
 import lombok.Data;
-import org.sofka.challenge.collections.Country;
-import org.sofka.challenge.collections.Team;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 
 @Data
 public class RiderDTO {
@@ -13,14 +11,17 @@ public class RiderDTO {
     private String id;
 
     @NotBlank
+    @Size(min = 3, max = 50)
     private String fullName;
 
     @NotNull
+    @Min(value = 1)
+    @Max(value = 999)
     private Short competitionNumber;
 
-    @NotBlank
-    private Team team;
+    @Valid
+    private TeamDTO team;
 
-    @NotBlank
-    private Country country;
+    @Valid
+    private CountryDTO country;
 }

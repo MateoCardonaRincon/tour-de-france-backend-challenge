@@ -4,14 +4,13 @@ import lombok.AllArgsConstructor;
 import org.sofka.challenge.dto.CountryDTO;
 import org.sofka.challenge.mapper.CountryMapper;
 import org.sofka.challenge.repository.ICountryRepository;
+import org.sofka.challenge.usecases.country.interfaces.ISaveCountry;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
-import java.util.function.Function;
-
 @Service
 @AllArgsConstructor
-public class UpdateCountryUseCase implements Function<CountryDTO, Mono<CountryDTO>> {
+public class UpdateCountryUseCase implements ISaveCountry {
 
     private final ICountryRepository repository;
     private final CountryMapper countryMapper;
